@@ -1,0 +1,14 @@
+﻿# Credenciales y configuracion sensible
+Data/DFConnId.ini
+
+# Datos de usuarios y sesiones
+Data/WebAppUser.dat
+Data/WebAppSession.dat
+
+# Registros y archivos temporales
+*.log
+*.x64.cch
+*.dbg
+
+# Ejecutables compilados
+Programs/*.exe
