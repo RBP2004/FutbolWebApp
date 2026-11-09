@@ -51,8 +51,8 @@ Object oZoomEquipo is a cWebView
             Set psLabel to "LigaID"
             Set pbPromptButton to True
 
-// ToDo: Fill in the from-child parent Select view object name for navigate forward
-//            WebRegisterPath ntNavigateForward oSelectView
+            // Desde equipo, elegir su liga (From Child)
+            WebRegisterPath ntNavigateForward oSelectLiga
 
             Procedure OnPrompt
                 Send NavigatePath
