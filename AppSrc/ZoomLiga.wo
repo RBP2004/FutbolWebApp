@@ -7,9 +7,11 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
-Use cWebButton.pkg
+Use cWebList.pkg
+Use cWebColumn.pkg
 
 Use cligaDataDictionary.dd
+Use cequipoDataDictionary.dd
 
 Object oZoomLiga is a cWebView
     Set piColumnCount to 12
@@ -23,6 +25,12 @@ Object oZoomLiga is a cWebView
     Object oliga_DD is a cligaDataDictionary
     End_Object 
 
+
+    // DDO hijo: solo equipos pertenecientes a la liga abierta.
+    Object oequipo_DD is a cequipoDataDictionary
+        Set DDO_Server to oliga_DD
+        Set Constrain_File to liga.File_Number
+    End_Object
     Set Main_DD To oliga_DD
     Set Server  To oliga_DD
 
@@ -63,14 +71,23 @@ Object oZoomLiga is a cWebView
             Set psLabel to "EquiposMax"
         End_Object 
 
-        Object oVerEquiposBtn is a cWebButton
-            Set psCaption to "Ver equipos de esta liga"
+        // Sprint 2: lista integrada sin cambiar de vista.
+        Object oEquiposDeLiga is a cWebList
+            Set Server to oequipo_DD
             Set piColumnSpan to 12
-            WebRegisterPath ntNavigateForward oSelectEquipo
+            Set piColumnIndex to 0
+            Set piHeight to 210
+            Set pbFillHeight to False
+            Set pbShowHeader to True
+            Set pbDataAware to True
+            Set peDbGridType to gtAllData
+            Set piSortColumn to 0
 
-            Procedure OnClick
-                Send NavigatePath
-            End_Procedure
+            Object oEquipoNombre is a cWebColumn
+                Entry_Item equipo.Nombre
+                Set psCaption to "Equipos de esta liga"
+                Set piWidth to 240
+            End_Object
         End_Object
     End_Object 
 
@@ -126,6 +143,7 @@ Object oZoomLiga is a cWebView
         Get Server to hoDD
         Get GetNavigateData to NavigateData
         Get HasRecord of hoDD to bHasRecord
+        WebSet pbRender of oEquiposDeLiga to bHasRecord
 
         // let's hide all buttons and then Show the ones we want
         WebSet pbRender of oEditBtn to False
@@ -172,6 +190,7 @@ Object oZoomLiga is a cWebView
         Case End
 
         Send SetActionButtons
+        Send RefreshListFromDD of oEquiposDeLiga
 
     End_Procedure
 
