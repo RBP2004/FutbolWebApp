@@ -93,7 +93,7 @@ Object oZoomEntrenador is a cWebView
                 Get HasRecord of oentrenador_DD to bHasRecord
                 If (bHasRecord) Begin
                     Send ChangeEditMode True
-                    // Limpia el padre. ParentNullAllowed guarda la FK como NULL.
+                    // Limpia el padre. El DD guarda EquipoID como NULL en MySQL.
                     Send Request_ClearBindingTable of oequipoID
                     Send Request_Save
                 End

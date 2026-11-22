@@ -34,4 +34,19 @@ Class centrenadorDataDictionary is a DataDictionary
 
     End_Procedure
 
+    // El padre opcional se representa como NULL en MySQL, no como ID 0.
+    Procedure Save_Main_File
+        Integer iEquipoField
+
+        Field_Map entrenador.File_Number "EquipoID" to iEquipoField
+        If (entrenador.EquipoID = 0) Begin
+            Set_Attribute DF_FIELD_IS_NULL of entrenador.File_Number iEquipoField to True
+        End
+        Else Begin
+            Set_Attribute DF_FIELD_IS_NULL of entrenador.File_Number iEquipoField to False
+        End
+
+        Forward Send Save_Main_File
+    End_Procedure
+
 End_Class
