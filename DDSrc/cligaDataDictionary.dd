@@ -9,6 +9,19 @@ Class cligaDataDictionary is a DataDictionary
         Forward Send Construct_Object
         Set Main_File to liga.File_Number
 
+        // Sprint 3: la clave primaria no se puede modificar tras crear la liga.
+        Set Protect_Key_State to True
+        Set Key_Field_State Field liga.ID to True
+
+        // Los nombres se introducen al crear el registro, pero quedan fijos despues.
+        Set Field_Option Field liga.Nombre DD_COMMIT to True
+        Set Field_Option Field liga.Nombre DD_REQUIRED to True
+        Set Field_Option Field liga.Pais DD_REQUIRED to True
+
+        // Las cantidades son numericas; no se validan con DD_REQUIRED.
+        Set Field_Value_Range Field liga.Equipos to 0 1000000
+        Set Field_Value_Range Field liga.EquiposMax to 1 1000000
+
         Set Add_Client_File to equipo.File_Number
 
         Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True

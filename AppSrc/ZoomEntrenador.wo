@@ -7,6 +7,8 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
+Use cWebCombo.pkg
+Use cWebButton.pkg
 
 Use cligaDataDictionary.dd
 Use cequipoDataDictionary.dd
@@ -56,7 +58,7 @@ Object oZoomEntrenador is a cWebView
             Set psLabel to "Apellido"
         End_Object 
 
-        Object oentrenadorNacionalidad is a cWebForm
+        Object oentrenadorNacionalidad is a cWebCombo
             Entry_Item entrenador.Nacionalidad
             Set piColumnSpan to 12
             Set piColumnIndex to 0
@@ -79,6 +81,24 @@ Object oZoomEntrenador is a cWebView
                 Send NavigatePath
             End_Procedure
         End_Object 
+
+        // Quitar el equipo sin borrar el entrenador.
+        Object oDespedirBtn is a cWebButton
+            Set psCaption to "Despedir"
+            Set piColumnSpan to 12
+
+            Procedure OnClick
+                Boolean bHasRecord
+
+                Get HasRecord of oentrenador_DD to bHasRecord
+                If (bHasRecord) Begin
+                    Send ChangeEditMode True
+                    // Limpia el padre. El DD guarda EquipoID como NULL en MySQL.
+                    Send Request_ClearBindingTable of oequipoID
+                    Send Request_Save
+                End
+            End_Procedure
+        End_Object
     End_Object 
 
     Object oActionGroup is a cWebMenuGroup
@@ -139,6 +159,7 @@ Object oZoomEntrenador is a cWebView
         WebSet pbRender of oSaveBtn to False
         WebSet pbRender of oCancelChangesBtn to False
         WebSet pbRender of oDeleteBtn to False
+        WebSet pbRender of oDespedirBtn to bHasRecord
 
         If (NavigateData.bReadOnly) Begin
             WebSet pbRender of oEditBtn to True
